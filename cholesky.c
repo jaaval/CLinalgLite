@@ -4,8 +4,13 @@
 #include <stdlib.h>
 #include <math.h>
 
+CholDecomp* newCholDecomp(int size) {
+	CholDecomp* dec = (CholDecomp *)malloc(sizeof(CholDecomp));
+	initCholDecomp(dec, size);
+	return dec;
+}
 
-void initDecomp(CholDecomp* dec, int size) {
+void initCholDecomp(CholDecomp* dec, int size) {
 	dec->size = size;
 	dec->L = (Matrix*)malloc(sizeof(Matrix));
 	dec->D = (Matrix*)malloc(sizeof(Matrix));
@@ -15,7 +20,7 @@ void initDecomp(CholDecomp* dec, int size) {
 	createMatrix(dec->X,size,size);
 }
 
-void resetDecomp(CholDecomp* dec, int size) {
+void resetCholDecomp(CholDecomp* dec, int size) {
 	if (size != dec->size) {
 		dec->size = size;
 		resizeMatrix(dec->L, size, size);
@@ -27,7 +32,7 @@ void resetDecomp(CholDecomp* dec, int size) {
 	setZero(dec->X);
 }
 
-void deleteDecomp(CholDecomp* dec) {
+void deleteCholDecomp(CholDecomp* dec) {
 	deleteMatrix(dec->L);
 	deleteMatrix(dec->D);
 	deleteMatrix(dec->X);

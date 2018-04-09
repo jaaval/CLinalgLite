@@ -15,6 +15,7 @@ typedef struct EigenDecomp {
 } EigenDecomp;
 
 
+EigenDecomp* newEigenDecomp(int size);
 void initEigen(EigenDecomp* dec, int size);
 void resetEigen(EigenDecomp* dec, int size);
 void deleteEigen(EigenDecomp* dec);

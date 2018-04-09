@@ -3,6 +3,13 @@
 #include <stdlib.h>
 #include <math.h> //sqrt
 
+
+EigenDecomp* newEigenDecomp(int size) {
+  EigenDecomp* dec = (EigenDecomp *)malloc(sizeof(EigenDecomp));
+  initEigen(dec, size);
+  return dec;
+}
+
 void initEigen(EigenDecomp* dec, int size) {
 	dec->size = size;
 	dec->vectors = (Matrix*)malloc(sizeof(Matrix));

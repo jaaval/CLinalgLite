@@ -15,9 +15,10 @@ typedef struct CholDecomp {
 	Matrix* X; //solver solution
 } CholDecomp;
 
-void initDecomp(CholDecomp* dec, int size);
-void resetDecomp(CholDecomp* dec, int size);
-void deleteDecomp(CholDecomp* dec);
+CholDecomp* newCholDecomp(int size);
+void initCholDecomp(CholDecomp* dec, int size);
+void resetCholDecomp(CholDecomp* dec, int size);
+void deleteCholDecomp(CholDecomp* dec);
 
 void cholDecompose(CholDecomp* chol, Matrix* A);
 void cholSolve(CholDecomp* chol, Matrix* b);

@@ -8,11 +8,9 @@
 
 int main() {
 	printf("Hello!\n");
-	Matrix* A = (Matrix *)malloc(sizeof(Matrix));
-	Matrix* b = (Matrix *)malloc(sizeof(Matrix));;
-	CholDecomp* ldlt = (CholDecomp *)malloc(sizeof(CholDecomp));
-	printf("--------\n");
-	createMatrix(A, 3,3);
+	Matrix* A = newMatrix(3,3);
+	Matrix* b = newMatrix(3,3);
+	CholDecomp* ldlt = newCholDecomp(3);
 	printf("Cholesky (and LDLT) tests:\n");
 	setZero(A);
 	printf("--------\n");
@@ -26,8 +24,6 @@ int main() {
 	set(A,2,1, -1);
 	set(A,2,2, 1);
 	printf("--------\n");
-	createMatrix(b, 3,3);
-	printf("--------\n");
 	set(b,0,0, 3);
 	set(b,0,1, -1);
 	set(b,0,2, 1);
@@ -38,8 +34,7 @@ int main() {
 	set(b,2,1, -2);
 	set(b,2,2, 0);
 	printf("--------\n");
-	initDecomp(ldlt,3);
-	resetDecomp(ldlt, 3);
+	resetCholDecomp(ldlt, 3);
 	printf("--------\n");
 	ldlDecompose(ldlt, A);
 	printf("%f  %f  %f\n%f  %f  %f\n%f  %f  %f\n",
@@ -56,7 +51,7 @@ int main() {
 		get(ldlt->X, 1,0),get(ldlt->X, 1,1),get(ldlt->X, 1,2),
 		get(ldlt->X, 2,0),get(ldlt->X, 2,1),get(ldlt->X, 2,2));
 	printf("--------\n");
-	resetDecomp(ldlt, 3);
+	resetCholDecomp(ldlt, 3);
 	printf("--------\n");
 	cholDecompose(ldlt, A);
 	printf("%f  %f  %f\n%f  %f  %f\n%f  %f  %f\n",
@@ -76,13 +71,12 @@ int main() {
 
 	deleteMatrix(A);
 	deleteMatrix(b);
-	deleteDecomp(ldlt);
+	deleteCholDecomp(ldlt);
 
 	printf("Eigen tests:\n");
 	printf("2x2:\n");
 	A = newMatrix(2,2);
-	EigenDecomp* eig = (EigenDecomp *)malloc(sizeof(EigenDecomp));
-	initEigen(eig, 2);
+	EigenDecomp* eig = newEigenDecomp(2);
 
 	set(A,0,0, 2);
 	set(A,0,1, 1);
