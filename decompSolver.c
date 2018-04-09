@@ -21,6 +21,12 @@ void resetDecomp(DecompData* dec) {
 	setZero(dec->X);
 }
 
+void deleteDecomp(DecompData* dec) {
+	deleteMatrix(dec->L);
+	deleteMatrix(dec->D);
+	deleteMatrix(dec->X);
+	free(dec);
+}
 
 void cholDecompose(DecompData* choldec, Matrix* A) {
 	int n = choldec->size;

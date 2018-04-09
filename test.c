@@ -72,6 +72,11 @@ int main() {
 		get(ldlt->X, 1,0),get(ldlt->X, 1,1),get(ldlt->X, 1,2),
 		get(ldlt->X, 2,0),get(ldlt->X, 2,1),get(ldlt->X, 2,2));
 	printf("--------\n");
+
+	deleteMatrix(A);
+	deleteMatrix(b);
+	deleteDecomp(ldlt);
+
 	return 0;
 }
 

@@ -18,7 +18,7 @@ typedef struct DecompData {
 
 void initDecomp(DecompData* dec, int size); //TODO
 void resetDecomp(DecompData* dec);
-//void deleteDecomp(DecompData* dec);
+void deleteDecomp(DecompData* dec);
 
 void cholDecompose(DecompData* chol, Matrix* A);
 void cholSolve(DecompData* chol, Matrix* b);
