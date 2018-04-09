@@ -1,7 +1,8 @@
 #define TESTING // undefine to not mess with arduino build
 #ifdef TESTING
 #include "matrixOps.h"
-#include "decompSolver.h"
+#include "cholesky.h"
+#include "eigen.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -9,10 +10,10 @@ int main() {
 	printf("Hello!\n");
 	Matrix* A = (Matrix *)malloc(sizeof(Matrix));
 	Matrix* b = (Matrix *)malloc(sizeof(Matrix));;
-	DecompData* ldlt = (DecompData *)malloc(sizeof(DecompData));;
+	CholDecomp* ldlt = (CholDecomp *)malloc(sizeof(CholDecomp));
 	printf("--------\n");
 	createMatrix(A, 3,3);
-	printf("--------\n");
+	printf("Cholesky (and LDLT) tests:\n");
 	setZero(A);
 	printf("--------\n");
 	set(A,0,0, 2);
@@ -38,7 +39,7 @@ int main() {
 	set(b,2,2, 0);
 	printf("--------\n");
 	initDecomp(ldlt,3);
-	resetDecomp(ldlt);
+	resetDecomp(ldlt, 3);
 	printf("--------\n");
 	ldlDecompose(ldlt, A);
 	printf("%f  %f  %f\n%f  %f  %f\n%f  %f  %f\n",
@@ -55,7 +56,7 @@ int main() {
 		get(ldlt->X, 1,0),get(ldlt->X, 1,1),get(ldlt->X, 1,2),
 		get(ldlt->X, 2,0),get(ldlt->X, 2,1),get(ldlt->X, 2,2));
 	printf("--------\n");
-	resetDecomp(ldlt);
+	resetDecomp(ldlt, 3);
 	printf("--------\n");
 	cholDecompose(ldlt, A);
 	printf("%f  %f  %f\n%f  %f  %f\n%f  %f  %f\n",
@@ -77,6 +78,29 @@ int main() {
 	deleteMatrix(b);
 	deleteDecomp(ldlt);
 
+	printf("Eigen tests:\n");
+	printf("2x2:\n");
+	A = newMatrix(2,2);
+	EigenDecomp* eig = (EigenDecomp *)malloc(sizeof(EigenDecomp));
+	initEigen(eig, 2);
+
+	set(A,0,0, 2);
+	set(A,0,1, 1);
+	set(A,1,0, 3);
+	set(A,1,1, 6);
+	eigenDecompose(eig, A);
+	printf("--------\n");
+	printf("%f  %f\n",
+		eig->lambda->array[0],eig->lambda->array[1]);
+	printf("--------\n");
+	printf("%f  %f\n%f  %f\n",
+		get(eig->vectors, 0,0),get(eig->vectors, 0,1),
+		get(eig->vectors, 1,0),get(eig->vectors, 1,1));
+	printf("--------\n");
+
+
+	deleteMatrix(A);
+	deleteEigen(eig);
 	return 0;
 }
 

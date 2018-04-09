@@ -1,6 +1,6 @@
 
 /*
- * 
+ *
 */
 
 #ifndef CLINALGLITE
@@ -11,7 +11,8 @@ extern "C" {
 #endif
 
 #include "matrixOps.h"
-#include "decompSolver.h"
+#include "cholesky.h"
+#include "eigen.h"
 
 #ifdef __cplusplus
 }

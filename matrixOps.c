@@ -28,6 +28,13 @@ void deleteMatrix(Matrix* mat) {
 	free(mat);
 }
 
+void resizeMatrix(Matrix* mat, int r, int c) {
+	if (mat->cols != c || mat->rows != r) {
+		free(mat->array);
+		createMatrix(mat, r, c);
+	}
+}
+
 
 // define some basic matrix functionality
 // all matrices are in row major format
@@ -151,6 +158,15 @@ void transpose(Matrix* matA, Matrix* matB) {
 			indexB = j*matB->cols+i;
 			matB->array[indexB] = matA->array[indexA];
 		}
+	}
+}
+
+
+void extractVector(Matrix* matA, Matrix* matB, int ind, int col) {
+	if (col) {
+
+	} else {
+
 	}
 }
 

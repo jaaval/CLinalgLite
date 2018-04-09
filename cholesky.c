@@ -1,11 +1,11 @@
 
 
-#include "decompSolver.h"
+#include "cholesky.h"
 #include <stdlib.h>
 #include <math.h>
 
 
-void initDecomp(DecompData* dec, int size) {
+void initDecomp(CholDecomp* dec, int size) {
 	dec->size = size;
 	dec->L = (Matrix*)malloc(sizeof(Matrix));
 	dec->D = (Matrix*)malloc(sizeof(Matrix));
@@ -15,20 +15,26 @@ void initDecomp(DecompData* dec, int size) {
 	createMatrix(dec->X,size,size);
 }
 
-void resetDecomp(DecompData* dec) {
+void resetDecomp(CholDecomp* dec, int size) {
+	if (size != dec->size) {
+		dec->size = size;
+		resizeMatrix(dec->L, size, size);
+		resizeMatrix(dec->D, size, 1);
+		resizeMatrix(dec->X, size, size);
+	}
 	setZero(dec->L);
 	setZero(dec->D);
 	setZero(dec->X);
 }
 
-void deleteDecomp(DecompData* dec) {
+void deleteDecomp(CholDecomp* dec) {
 	deleteMatrix(dec->L);
 	deleteMatrix(dec->D);
 	deleteMatrix(dec->X);
 	free(dec);
 }
 
-void cholDecompose(DecompData* choldec, Matrix* A) {
+void cholDecompose(CholDecomp* choldec, Matrix* A) {
 	int n = choldec->size;
 	double sum;
 	for (int i = 0; i < n; i++) {
@@ -47,13 +53,11 @@ void cholDecompose(DecompData* choldec, Matrix* A) {
 	}
 }
 
-void cholSolve(DecompData* choldec, Matrix* b) {
+void cholSolve(CholDecomp* choldec, Matrix* b) {
 	int temp_index;
 	int n = choldec->size;
-	int cols = b->cols;
-	choldec->cols = cols;
 	//forward solution
-	for (int c = 0; c < cols; c++) {//a bit of a hack for now to solve for matrices
+	for (int c = 0; c < b->cols; c++) {//a bit of a hack for now to solve for matrices
 		for (int i = 0; i < n; i++) {
 			set(choldec->X, i, c, get(b, i, c));
 			temp_index = i * choldec->X->cols + c;
@@ -73,7 +77,7 @@ void cholSolve(DecompData* choldec, Matrix* b) {
 	}
 }
 
-void ldlDecompose(DecompData* ldlt, Matrix* A) {
+void ldlDecompose(CholDecomp* ldlt, Matrix* A) {
 	int n = ldlt->size;
 	int ij, ji;
 	double sum;
@@ -96,14 +100,12 @@ void ldlDecompose(DecompData* ldlt, Matrix* A) {
 	}
 }
 
-void ldlSolve(DecompData* ldlt, Matrix* b) {
+void ldlSolve(CholDecomp* ldlt, Matrix* b) {
 	int temp_index;
 	int n = ldlt->size;
-	int cols = b->cols;
-	ldlt->cols = cols;
 	//forward solution
 
-	for (int c = 0; c < cols; c++) {//a bit of a hack for now to solve for matrices
+	for (int c = 0; c < b->cols; c++) {//a bit of a hack for now to solve for matrices
 		for (int i = 0; i < n; i++) {
 			temp_index = i * ldlt->X->cols + c;
 			ldlt->X->array[temp_index] = b->array[temp_index];
@@ -127,4 +129,4 @@ void ldlSolve(DecompData* ldlt, Matrix* b) {
 }
 
 
-//void ldlInverse(DecompData* ldlt, Matrix* A) {}
+//void ldlInverse(CholDecomp* ldlt, Matrix* A) {}

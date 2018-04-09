@@ -30,6 +30,10 @@ Matrix* newMatrix(int r, int c);
 // "destructor" releases all the memory and invalidates the matrix pointer
 void deleteMatrix(Matrix* mat);
 
+//this can be used to resize matrices in other functions
+//should not be needed if things are done correctly
+void resizeMatrix(Matrix* mat, int rows, int cols);
+
 
 // define some basic matrix functionality
 // all matrices are in row major format
@@ -72,6 +76,10 @@ void setDiag(Matrix* matrix, double value);
 void copyMat(Matrix* matA, Matrix* matB);
 
 void transpose(Matrix* matA, Matrix* matB);
+
+
+//copies a vector from index ind. if col -> copy a column else copy a row
+void extractVector(Matrix* matA, Matrix* matB, int ind, int col);
 
 //copies a block from matrix A to matriB that is of correct size
 void copyBlock(Matrix* matA, Matrix* matB, int y0, int x0, int sizey, int sizex);
