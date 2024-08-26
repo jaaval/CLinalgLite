@@ -95,6 +95,20 @@ int main() {
 
 	deleteMatrix(A);
 	deleteEigen(eig);
+
+
+	printf("------------------- Big matrix test ------------------\n");
+	Matrix* bigA = newMatrix(1000, 1000);
+	Matrix* bigB = newMatrix(1000, 800);
+	Matrix* bigC = newMatrix(1000, 800);
+	matrixMult(bigA, bigB, bigC);
+	double dc = diagSum(bigC);
+	printf("%f\n", dc); 
+	printf("----------------------- Done -------------------------\n");
+	deleteMatrix(bigA);
+	deleteMatrix(bigB);
+	deleteMatrix(bigC);
+
 	return 0;
 }
 

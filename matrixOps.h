@@ -94,6 +94,10 @@ int sizeEquals(Matrix* matA, Matrix* matB);
 double get(Matrix* mat, int i, int j);
 void set(Matrix* mat, int i, int j, double val);
 
+// extra
+double det(Matrix* mat);
+double diagSum(Matrix* mat);
+
 
 // inversion for matrices. this is easier than writing an actual solver
 // input has to be square matrix

@@ -28,7 +28,7 @@ void deleteMatrix(Matrix* mat) {
 	free(mat);
 }
 
-void resizeMatrix(Matrix* mat, int r, int c) {
+void resizeMatrix(Matrix* mat, const int r, const int c) {
 	if (mat->cols != c || mat->rows != r) {
 		free(mat->array);
 		createMatrix(mat, r, c);
@@ -40,15 +40,15 @@ void resizeMatrix(Matrix* mat, int r, int c) {
 // all matrices are in row major format
 
 // scalar mult in place
-void scalarMultInPlace(Matrix* matrix, double scalar) {
+void scalarMultInPlace(Matrix* const matrix, const double scalar) {
 	for (int i = 0; i < matrix->rows * matrix->cols; i++) {
 		matrix->array[i] *= scalar;
 	}
 }
 // scalar mult
-void scalarMult(Matrix* matA, Matrix* matB, double scalar) {
-	for (int i = 0; i < matA->rows * matA->cols; i++) {
-			matB->array[i] = matA->array[i]*scalar;
+void scalarMult(Matrix* const result, Matrix* const oper, const double scalar) {
+	for (int i = 0; i < oper->rows * oper->cols; i++) {
+			result->array[i] = oper->array[i]*scalar;
 	}
 }
 
@@ -218,3 +218,15 @@ void set(Matrix* mat, int i, int j, double val) {
 	}
 	mat->array[index] = val;
 }
+
+double diagSum(Matrix* mat)
+{
+	double sum = 0;
+	int size = mat->rows;
+	if (mat->cols < size)
+		size = mat->cols;
+	for (int i = 0; i < size; i++)
+		sum += get(mat, i, i);
+	return sum;
+}
+
